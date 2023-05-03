@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Container } from './Container/Container.styled';
 
-export const App = () => {
-  return <Container></Container>;
-};
+export class App extends Component {
+  render() {
+    return <Container></Container>;
+  }
+}
