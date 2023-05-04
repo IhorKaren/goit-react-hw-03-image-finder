@@ -1,22 +1,31 @@
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 const SearchBar = ({ getImages }) => {
+  const validationSchema = Yup.object().shape({
+    imageSearch: Yup.string().trim().required('Please enter a search term'),
+  });
+
   return (
     <header>
       <Formik
         initialValues={{ imageSearch: '' }}
+        validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          getImages(values.imageSearch, 1);
+          getImages(values.imageSearch.trim());
           resetForm();
         }}
       >
-        <Form>
-          <Field name="imageSearch" type="text" />
+        {({ dirty }) => (
+          <Form>
+            <Field name="imageSearch" type="text" />
+            <ErrorMessage name="imageSearch" component="div" />
 
-          <button type="submit">
-            <span className="button-label">Search</span>
-          </button>
-        </Form>
+            <button type="submit" disabled={!dirty}>
+              <span className="button-label">Search</span>
+            </button>
+          </Form>
+        )}
       </Formik>
     </header>
   );
