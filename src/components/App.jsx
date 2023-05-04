@@ -4,18 +4,22 @@ import fetchImages from '../services/pixabayAPI';
 import SearchBar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Button from './Button';
+import Loader from './Loader';
 
 export class App extends Component {
   state = {
     images: [],
     value: '',
     page: 1,
+    loading: false,
   };
 
   getImages = async value => {
     try {
       const { page } = this.state;
 
+      this.setState({ loading: true });
+      
       if (value !== this.state.value) {
         const responseImages = await fetchImages(value, 1);
         return this.setState({
@@ -33,7 +37,10 @@ export class App extends Component {
           value: value,
         }));
       }
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      this.setState({ loading: false });
+    }
   };
 
   handleLoadMoreClick = () => {
@@ -51,6 +58,7 @@ export class App extends Component {
 
     return (
       <Container>
+        {this.state.loading && <Loader />}
         <SearchBar getImages={this.getImages} />
         <ImageGallery images={images} />
         {showLoadMoreButton ? null : (

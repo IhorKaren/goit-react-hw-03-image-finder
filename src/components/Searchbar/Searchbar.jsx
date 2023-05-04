@@ -1,13 +1,20 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
+import {
+  Searchbar,
+  SearchForm,
+  SearchFormButton,
+  SearchFormInput,
+  SearchFormErrorMessage,
+} from './Searchbar.styled';
 
 const SearchBar = ({ getImages }) => {
   const validationSchema = Yup.object().shape({
-    imageSearch: Yup.string().trim().required('Please enter a search term'),
+    imageSearch: Yup.string().trim().required('Search field cannot be empty'),
   });
 
   return (
-    <header>
+    <Searchbar>
       <Formik
         initialValues={{ imageSearch: '' }}
         validationSchema={validationSchema}
@@ -17,17 +24,16 @@ const SearchBar = ({ getImages }) => {
         }}
       >
         {({ dirty }) => (
-          <Form>
-            <Field name="imageSearch" type="text" />
-            <ErrorMessage name="imageSearch" component="div" />
-
-            <button type="submit" disabled={!dirty}>
-              <span className="button-label">Search</span>
-            </button>
-          </Form>
+          <SearchForm>
+            <SearchFormErrorMessage name="imageSearch" component="div" />
+            <SearchFormInput name="imageSearch" type="text" />
+            <SearchFormButton type="submit" disabled={!dirty}>
+              Search
+            </SearchFormButton>
+          </SearchForm>
         )}
       </Formik>
-    </header>
+    </Searchbar>
   );
 };
 
