@@ -74,7 +74,7 @@ export class App extends Component {
     return (
       <Container>
         {this.state.loading && <Loader />}
-        <SearchBar getImages={this.getImages} />
+        <SearchBar onSubmit={this.getImages} />
         <ImageGallery images={images} />
         {showLoadMoreButton ? null : (
           <Button buttonClick={this.handleLoadMoreClick} />

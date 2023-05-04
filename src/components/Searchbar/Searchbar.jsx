@@ -8,7 +8,7 @@ import {
   SearchFormErrorMessage,
 } from './Searchbar.styled';
 
-const SearchBar = ({ getImages }) => {
+const SearchBar = ({ onSubmit }) => {
   const validationSchema = Yup.object().shape({
     imageSearch: Yup.string().trim().required('Search field cannot be empty'),
   });
@@ -19,7 +19,7 @@ const SearchBar = ({ getImages }) => {
         initialValues={{ imageSearch: '' }}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          getImages(values.imageSearch.trim());
+          onSubmit(values.imageSearch.trim());
           resetForm();
         }}
       >
